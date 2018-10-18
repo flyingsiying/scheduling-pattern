@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>Spatio-Temporal Visualization of Trip Requests</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel='stylesheet' href='css/style.css'>
+  </head>
+  <body>
+    <div id='map'>
+      <div class='box' id='titleBox'>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" id="homeTab" tab="home">
+            <a class="nav-link active" id="" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+          </li>
+          <li class="nav-item" id="locTab" tab="origins">
+            <a class="nav-link" id="" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Origins & Destinations</a>
+          </li>
+          <li class="nav-item" id="routeTab" tab="routes">
+            <a class="nav-link" id="" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Routes</a>
+          </li>
+          <li class="nav-item" id="temporalTab" tab="temporal">
+            <a class="nav-link" id="" data-toggle="tab" href="#temporal" role="tab" aria-controls="temporal" aria-selected="false">Temporal</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div>This map report is intended to visualize the spatial and temporal patterns of scheduling behavior of Scoop users (both drivers and passengers) and to generate insights that may help us to make better product and market decisions. </div>
+          </div>
+          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="wordy">To analyze how origins and destinations are spatially distributed, I used a GeoJSON file that contained the geometries of the <a href="https://raw.githubusercontent.com/FrankBowers24/d3-bayarea/master/data/Bay_Area.json" target="_blank">Bay Area ZIP code areas</a> and <a href="https://en.wikipedia.org/wiki/Point_in_polygon" target="_blank">Ray Casting Algorithm</a> to calculate how many origins and destinations are located in each ZIP code zone. A detailed script could be found <a href="notebook/scheduling-pattern.html" target="_blank">here</a>. In order to have a better sense of passenger-driver or demand-supply balance, I also separated out passenger-mode locations and driver-mode locations. Feel free to play with the dropdown and see how the choropleth layer would change. </div>
+
+
+            <div class="instruction">Select an option to see the most popular pickup and dropoff locations:</div>
+            <select id="select1" class="custom-select">
+              <option value="orig_ct">All Origins</option>
+              <option value="dest_ct">All Destinations</option>
+              <option value="passenger_orig_ct">Passenger-Mode Origins</option>
+              <option value="passenger_dest_ct">Passenger-Mode Destinations</option>
+              <option value="driver_orig_ct">Driver-Mode Origins</option>
+              <option value="driver_dest_ct">Driver-Mode Destinations</option>
+            </select>
+            <div class="instruction" style="padding-top:10px">Click on a zipcode area to see more details</div>
+            <div id='zipcodeDetail'></div>
+          </div>
+          <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <div> The current view shows us the routes for 5000 origin-destination paris. The route geometries are calculated using <a href="https://www.mapbox.com/help/how-directions-work/" target="_blank">Mapbox Navigation Web Service</a>. A detailed script could be found <a href="notebook/routes.html" target="_blank">here</a>. We can tell from the map that Highway 101, I-280, Route 84, I-680, I-880, Bay Bridge, San Mateo Bridge are all popular corridors.</div>
+          </div>
+          <div class="tab-pane fade" id="temporal" role="tabpanel" aria-labelledby="contact-tab">
+            <div>
+              <div class="wordy"> The current view shows us how the origins and destinations of trip requests change from 4:30am to 11:30am. I have divided this whole time period into 3 intervals, which are 4:30-7:00am, 7:00-9:00am, 9:00-11:30am. If the requested pickup time overlaps with any of the intervals, this time will be regarded as within these intervals. A detailed script could be found <a href="notebook/temporal-pattern.html" target="_blank">here</a>.</div>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="origCheck" checked>
+              <label class="form-check-label" for="origCheck">Origins</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="destCheck" checked>
+              <label class="form-check-label" for="destCheck">Destinations</label>
+            </div>
+            <div class="instruction" style="padding-top:10px">Select a time period to see how trip origins and locations would change:</div>
+            <select id="select2" class="custom-select">
+              <option value="0">All</option>
+              <option value="1">From 4:30am to 7:00am</option>
+              <option value="2">From 7:00am to 9:00am</option>
+              <option value="3">From 9:00am to 11:30am</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='map-overlay' id='legend'>Legend
+      <div id='originsLegend'></div>
+      <div id='routesLegend'>
+        <svg height="20" width="20">
+          <line x1="0" y1="10" x2="20" y2="10" style="stroke:#0570b0;stroke-width:2" />
+        </svg> Routes
+      </div>
+    </div>
+    <script src='init.js'></script>
+  </body>
+</html>

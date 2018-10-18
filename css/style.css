@@ -1,0 +1,75 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.box {
+  position: absolute;
+  z-index: 40;
+  background: #ffffff;
+  color: #777777;
+  padding: 10px;
+  border: 2px solid #666666;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-family: arial;
+  font-size: 1em;
+  overflow-wrap: break-word;
+}
+
+#titleBox{
+  left: 20px;
+  top: 20px;
+  width: auto;
+  height: auto;
+  max-width: 400px;
+}
+
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-right: 20px;
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+}
+
+#legend {
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  line-height: 18px;
+  height: auto;
+  margin-bottom: 40px;
+  width: 100px;
+}
+
+.legend-key {
+  display: inline-block;
+  border-radius: 20%;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+}
+
+.tab-content{
+  padding: 10px;
+}
+
+.instruction {
+  color: #31a354;
+  font-weight: bold;
+}
+
+.wordy {
+  padding-bottom: 10px;
+}
